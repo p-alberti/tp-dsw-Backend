@@ -15,3 +15,27 @@ Content-Type: application/json
     "password":"67891",
     "mail":"lucasramirez@gmail.com"
 }
+
+### MODIFICAR un nuevo user
+PUT http://localhost:3000/api/users
+Content-Type: application/json
+
+{
+    "username":"anagomez",
+    "name":"Anabelle",
+    "surname":"Gomez",
+    "password":"46595",
+    "mail":"anabellegomez@gmail.com"
+}
+
+### MODIFICAR un nuevo user parcial
+PATCH  http://localhost:3000/api/users/a02b91bc-3769-4221-beb1-d7a3aeba7dad
+Content-Type: application/json
+
+{
+    "username":"anabellegomez",
+    "mail":"anabellegomez@hotmail.com"
+}
+
+### ELIMINAR un user 
+DELETE http://localhost:3000/api/users/a02b91bc-3769-4221-beb1-d7a3aeba7dad

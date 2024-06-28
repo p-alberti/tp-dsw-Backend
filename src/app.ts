@@ -1,4 +1,4 @@
-import express from 'express' 
+import express, {NextFunction, Request, Response} from 'express' 
 import { User } from './user.js'
 
 const app = express()
@@ -15,6 +15,23 @@ const users = [
     ),
 ]
 
+function sanitizeUserInput(req: Request, res: Response, next: NextFunction){
+
+    req.body.sanitizedInput = {
+        username : req.body.username,
+        name : req.body.name,
+        surname : req.body.surname,
+        password : req.body.password,
+        mail : req.body.mail,
+    }
+    Object.keys(req.body.sanitizedInput).forEach(key =>{
+        if (req.body.sanitizedInput[key]===undefined){
+            delete req.body.sanitizedInput[key]
+        }
+    })
+    next()
+}
+
 app.get('/api/users',(req,res) => {
     res.json(users) 
 })
@@ -27,13 +44,47 @@ app.get('/api/users/:id',(req,res) => {
     res.json(user)
 })
 
-app.post('/api/users',(req,res) =>{
-    const {username, name, surname, password, mail} = req.body
+app.post('/api/users',sanitizeUserInput, (req,res) =>{
+    const input = req.body.sanitizedInput
 
-    const user = new User(username ,name, surname, password, mail)
+    const user = new User(input.username ,input.name, input.surname, input.password, input.mail)
 
     users.push(user)
     res.status(201).send({message:'Character created',data:user})
+})
+
+app.put('/api/users/:id', sanitizeUserInput, (req, res) => {
+    const userIdx = users.findIndex(user => user.id === req.params.id)
+
+    if(userIdx === -1){
+        res.status(404).send({message: 'User not found'})
+    }
+
+    users[userIdx] = {...users[userIdx], ...req.body.sanitizedInput}
+
+    res.status(200).send({message: 'User updated successfully', data: users[userIdx]})
+})
+
+app.patch('/api/users/:id', sanitizeUserInput, (req, res) => {
+    const userIdx = users.findIndex(user => user.id === req.params.id)
+
+    if(userIdx === -1){
+        res.status(404).send({message: 'User not found'})
+    }
+
+    users[userIdx] = {...users[userIdx], ...req.body.sanitizedInput}
+
+    res.status(200).send({message: 'User updated successfully', data: users[userIdx]})
+})
+
+app.delete('/api/users/:id', (req, res) => {
+    const userIdx = users.findIndex(user => user.id === req.params.id)
+
+    if(userIdx === -1){
+        res.status(404).send({message: 'User not found'})
+    }    
+    users.splice(userIdx,1)
+    res.status(200).send({message: 'User deleted successfully'})
 })
 
 app.listen(3000,() => {
