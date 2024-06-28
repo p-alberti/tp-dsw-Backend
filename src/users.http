@@ -16,7 +16,7 @@ Content-Type: application/json
     "mail":"lucasramirez@gmail.com"
 }
 
-### MODIFICAR un nuevo user
+### MODIFICAR un user
 PUT http://localhost:3000/api/users/a02b91bc-3769-4221-beb1-d7a3aeba7dad
 Content-Type: application/json
 
