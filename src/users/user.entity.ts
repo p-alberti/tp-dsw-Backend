@@ -5,7 +5,7 @@ export class User{
         public username: string,
         public name: string,
         public surname: string,
-        private password: string,
+        public password: string,
         public mail: string,
         public id = crypto.randomUUID()
         //public sessions: session[], el usuario conoce sus sesiones, se crearan mas adelante
