@@ -8,6 +8,7 @@ const users = [
         'Perez',
         '12345',
         'paulaperez@gmail.com',
+        [],
         'a02b91bc-3769-4221-beb1-d7a3aeba7dad'
     ),
 ]

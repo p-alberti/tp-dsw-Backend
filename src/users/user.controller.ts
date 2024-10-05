@@ -43,7 +43,8 @@ function add(req: Request,res:Response){
         input.name, 
         input.surname, 
         input.password, 
-        input.mail
+        input.mail,
+        []
     )
 
     const user = repository.add(userInput)

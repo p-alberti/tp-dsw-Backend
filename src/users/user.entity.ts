@@ -1,4 +1,5 @@
 import crypto from 'node:crypto'
+import { Session } from '../sessions/session.entity.js'
 
 export class User{
     constructor(
@@ -7,8 +8,8 @@ export class User{
         public surname: string,
         public password: string,
         public mail: string,
+        public sessions: Session[],
         public id = crypto.randomUUID()
-        //public sessions: session[], el usuario conoce sus sesiones, se crearan mas adelante
         //public tasks: task[], el usurio conoce sus tareas, se crearan mas adelante
     ){}
 }
